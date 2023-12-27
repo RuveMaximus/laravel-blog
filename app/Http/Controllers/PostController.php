@@ -3,68 +3,81 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use App\Models\Post;
+use App\Models\Tag;
+
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $path = storage_path('posts.json');
-        $posts = [];
-
-        if (File::exists($path)) {
-            $posts = json_decode(File::get($path), true);
+        $needAuthor = $request->query('need_author', true);
+        if (!$needAuthor) {
+            $posts = Post::unknownAuthor()->get();
+        } else {
+            $posts = Post::all();
         }
-
-        return view('feed.index', ['posts' => $posts, 'title' => 'Новости']);
+        return view('posts.index', compact('posts', 'request'));
     }
 
     public function create()
     {
-        return view('feed.post.create');
+        return view('posts.create');
     }
 
     public function store(Request $request)
     {
-        // Валидация данных
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255|min:5',
+        $request->validate([
+            'title' => 'required|string|max:255',
             'content' => 'required|string',
-        ], [
-            'title.required' => 'Пожалуйста, укажите заголовок.',
-            'title.string' => 'Заголовок должен быть строкой.',
-            'title.min' => 'Заголовок не может быть меньше 5 символов.',
-            'title.max' => 'Заголовок не может превышать 255 символов.',
-            
-            'content.required' => 'Содержание поста не может быть пустым',
-            'content.string' => 'Содержание должен быть строкой.',
+            'author' => 'nullable|string',
+            'tags' => 'nullable|string',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('feed.post.create')
-                ->withErrors($validator)
-                ->withInput();
+        $post = Post::create($request->all());
+
+        if ($request->has('tags')) {
+            $tagIds = Tag::parseFromStr($request->input('tags'));
+            $post->tags()->attach($tagIds);
         }
 
-        $path = storage_path('posts.json');
+        return redirect()->route('posts.index')->with('success', 'Пост успешно создан!');
+    }
 
-        // Чтение текущих данных из файла
-        $currentData = [];
-        if (File::exists($path)) {
-            $currentData = json_decode(File::get($path), true);
-        }
+    public function show($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('posts.show', compact('post'));
+    }
 
-        // Добавление нового поста
-        $currentData[] = [
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
-            'author' => $request->input('author') ?? 'Гость',
-            'date' => now()->toDateTimeString(),
-        ];
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('posts.edit', compact('post'));
+    }
 
-        File::put($path, json_encode($currentData));
-        return redirect()->route('feed')->with('success', 'Пост успешно создан!');
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'author' => 'nullable|string',
+            'date' => 'nullable|date',
+        ]);
+
+        $post = Post::findOrFail($id);
+        $post->update($request->all());
+
+        return redirect()->route('posts.index')->with('success', 'Пост успешно обновлен!');
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return redirect()->route('posts.index')->with('success', 'Пост успешно удален!');
     }
 }
 

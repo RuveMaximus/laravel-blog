@@ -17,9 +17,13 @@ use App\Http\Controllers\PostController;
 
 Route::redirect('/', '/feed');
 
-Route::get('/feed', [PostController::class, 'index'])->name('feed');
-Route::get('/feed/post/create', [PostController::class, 'create'])->name('feed.post.create');
-Route::post('/feed/post/store', [PostController::class, 'store'])->name('feed.post.store');
+Route::get('/feed', function() {
+    return view('feed.index');
+})->name('feed');
+// Route::get('/feed/post/create', [PostController::class, 'create'])->name('feed.post.create');
+// Route::post('/feed/post/store', [PostController::class, 'store'])->name('feed.post.store');
+
+Route::resource('posts', PostController::class);
 
 Route::get('/about', function() {
     return view('about');

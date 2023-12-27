@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col">
-                <form method="post" action="{{ route('feed.post.store') }}">
+                <form method="post" action="{{ route('posts.store') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Заголовок</label>
@@ -26,6 +26,13 @@
                         <label for="author" class="form-lavel">Автор</label>
                         <input type="text" class="form-control" id="author" name="author" value="{{ old('author') }}" placeholder="Представьтесь">
                         @error('author')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Теги (разделенные запятыми)</label>
+                        <input type="text" class="form-control" id="tags" name="tags">
+                        @error('tags')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
