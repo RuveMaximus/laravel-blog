@@ -1,8 +1,8 @@
 <a @class([
     'nav-link', 
-    'active' => Request::is($routeName)
+    'active' => Request::is($to)
 ]) 
-href="{{ route($routeName) }}">
-    {{ $content }}
+href="{{ route($to) }}">
+    {{ $slot }}
 </a>
   

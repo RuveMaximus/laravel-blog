@@ -12,8 +12,7 @@ class NavLink extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $routeName,
-        public string $content
+        public string $to,
     ) {}
 
     /**
