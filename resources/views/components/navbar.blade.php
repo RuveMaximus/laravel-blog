@@ -1,15 +1,13 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom mb-3">
     <div class="container-fluid">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('feed') ? 'active' : '' }}" href="{{ URL::route('feed') }}">Новости</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('posts') ? 'active' : '' }}" href="{{ URL::route('posts.index') }}">Посты</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ URL::route('about') }}">О проекте</a>
-            </li>
-        </ul>
+        <div class="navbar-nav">
+            <a class="nav-link {{ !Request::is('feed') ?: 'active' }}" href="{{ route('feed') }}">Новости</a>
+            <a class="nav-link {{ !Request::is('posts') ?: 'active' }}" href="{{ route('posts.index') }}">Посты</a>
+            <a class="nav-link {{ !Request::is('about') ?: 'active' }}" href="{{ route('about') }}">О проекте</a>
+        </div>
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ route('auth.signin') }}">Вход</a>
+            <a class="nav-link" href="{{ route('auth.signup') }}">Регистрация</a>
+        </div>
     </div>
 </nav>

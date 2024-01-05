@@ -1,5 +1,7 @@
 @extends('base')
 
+@section('title') О проекте @endsection
+
 @section('content')
     <div class="container">
         <h1>Проект разработан с помощью</h1>

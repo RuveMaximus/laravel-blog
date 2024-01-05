@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -16,15 +17,14 @@ use App\Http\Controllers\PostController;
 */
 
 Route::redirect('/', '/feed');
+Route::view('/feed', 'feed')->name('feed');
+Route::view('/about', 'about')->name('about');
 
-Route::get('/feed', function() {
-    return view('feed.index');
-})->name('feed');
-// Route::get('/feed/post/create', [PostController::class, 'create'])->name('feed.post.create');
-// Route::post('/feed/post/store', [PostController::class, 'store'])->name('feed.post.store');
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/auth/{id}/profile', 'profile')->name('auth.profile');
+    Route::get('/auth/signin', 'signin')->name('auth.signin');
+    Route::get('/auth/signup', 'signup')->name('auth.signup');
+    Route::post('/auth/create_user', 'create_user')->name('auth.create_user');
+});
 
 Route::resource('posts', PostController::class);
-
-Route::get('/about', function() {
-    return view('about');
-})->name('about');
