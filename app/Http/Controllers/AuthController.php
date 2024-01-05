@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -9,29 +10,46 @@ class AuthController extends Controller
 {
     public function signin() 
     {
-        return view('auth.signin');
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect(route('auth.profile'));
+        }
+
+        return back()->withErrors([
+            'email' => 'Указаны неверные данные'
+        ])->onlyInput('email');
     }
 
     public function signup() 
     {
-        return view('auth.signup');
+        return view('auth.register');
     }
 
     public function create_user(Request $request) 
     {
         $request->validate([
+            'name' => 'required|min:3|max:50',
             'email' => 'required|email',
-            'password' => 'required|string|min:5',
+            'password' => 'required|string|min:5|confirmed',
         ]);
 
-        if ($request->input('password') !== $request->input('password_repeat')) {
-            return redirect()->back()->withErrors(['password' => 'Пароли не совпадают']);
-        }
-        return redirect(route('auth.signin'));
+        User::create(request(['name', 'email', 'password']));
+
+        return redirect(route('login'));
     }
 
-    public function show() 
+    public function profile(Request $request) 
     {
-        return view('auth.profile');
+        return view('auth.profile', compact('request'));
     }
 }

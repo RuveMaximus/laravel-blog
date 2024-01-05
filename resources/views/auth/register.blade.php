@@ -14,7 +14,7 @@
             </ul>
         </div>
     @endif
-    <form method="post" action="{{ route('auth.create_user') }}">
+    <form method="post">
         @csrf
         <h1>Регистрация</h1>
 
@@ -24,20 +24,26 @@
         </div>
 
         <div class="mb-3">
+            <label for="name" class="form-label">Придумайте имя</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
+        </div>
+
+        <div class="mb-3">
             <label for="password" class="form-label">Придумайте пароль</label>
             <input type="password" name="password" id="password" class="form-control">
         </div>
 
         <div class="mb-3">
-            <label for="password_repeat" class="form-label">Повторите пароль</label>
-            <input type="password" name="password_repeat" id="password_repeat" class="form-control">
+            <label for="password_confirmation" class="form-label">Повторите пароль</label>
+            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
         </div>
 
         <input type="submit" value="Зарегистрироваться" class="btn btn-primary">
-        <p class="text-muted">
-            Уже есть аккаунт?
-            <a href="{{ route('auth.signin') }}">Войти</a>
-        </p>
     </form>
+
+    <p class="text-muted">
+        Уже есть аккаунт?
+        <a href="{{ route('login') }}">Войти</a>
+    </p>
 </div>
 @endsection

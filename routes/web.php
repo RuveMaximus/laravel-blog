@@ -17,14 +17,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', '/feed');
-Route::view('/feed', 'feed')->name('feed');
-Route::view('/about', 'about')->name('about');
+
+    Route::view('/feed', 'feed')->name('feed');
+    Route::view('/about', 'about')->name('about');
 
 Route::controller(AuthController::class)->group(function () {
-    Route::get('/auth/{id}/profile', 'profile')->name('auth.profile');
-    Route::get('/auth/signin', 'signin')->name('auth.signin');
-    Route::get('/auth/signup', 'signup')->name('auth.signup');
-    Route::post('/auth/create_user', 'create_user')->name('auth.create_user');
+    Route::middleware('auth')->group(function() {
+        Route::get('/me', 'profile')->name('auth.profile');
+    });
+
+    Route::middleware('guest')->group(function() {
+        Route::get('/auth/signup', 'signup')->name('register');
+        Route::post('/auth/signup', 'create_user');
+
+        Route::get('/auth/signin', 'signin')->name('login');
+        Route::post('/auth/signin', 'login');
+    });
 });
 
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)->name('index', 'posts');

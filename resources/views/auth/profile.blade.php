@@ -4,4 +4,5 @@
 
 @section('content')
 <h1>Мой профиль</h1>
+{{ $request->user()->name }}
 @endsection
