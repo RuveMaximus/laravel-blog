@@ -1,4 +1,4 @@
-@extends('base')
+@extends('layouts.base')
 
 @section('content')
     <div class="container">
@@ -10,7 +10,7 @@
             </div>
         @endif
 
-        <form method="post" action="{{ route('posts.update', $post->id) }}">
+        <form method="post" action="{{ route('post.update', $post->id) }}">
             @csrf
             @method('PUT')
 
@@ -26,14 +26,6 @@
                 <label for="content" class="form-label">Содержание</label>
                 <textarea class="form-control" id="content" name="content">{{ old('content', $post->content) }}</textarea>
                 @error('content')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="author" class="form-label">Автор</label>
-                <input type="text" class="form-control" id="author" name="author" value="{{ old('author', $post->author) }}">
-                @error('author')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>

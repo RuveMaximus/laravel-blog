@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function signin() 
     {
-        return view('auth.login');
+        return view('auth.signin');
     }
 
     public function login(Request $request)
@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect(route('auth.profile'));
+            return redirect()->route('user.me');
         }
 
         return back()->withErrors([
@@ -32,10 +32,10 @@ class AuthController extends Controller
 
     public function signup() 
     {
-        return view('auth.register');
+        return view('auth.signup');
     }
 
-    public function create_user(Request $request) 
+    public function register(Request $request) 
     {
         $request->validate([
             'name' => 'required|min:3|max:50',
@@ -45,11 +45,6 @@ class AuthController extends Controller
 
         User::create(request(['name', 'email', 'password']));
 
-        return redirect(route('login'));
-    }
-
-    public function profile(Request $request) 
-    {
-        return view('auth.profile', compact('request'));
+        return redirect()->route('auth.signin');
     }
 }

@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'content', 'author', 'date'];
+    protected $fillable = ['title', 'content', 'user_id', 'published_at'];
 
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
 
-    public function scopeUnknownAuthor($query) 
+    public function author()
     {
-        return $query->whereNull('author');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

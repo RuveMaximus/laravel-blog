@@ -1,6 +1,6 @@
 <a @class([
     'nav-link', 
-    'active' => Request::is($to)
+    'active' => Route::is($to)
 ]) 
 href="{{ route($to) }}">
     {{ $slot }}
