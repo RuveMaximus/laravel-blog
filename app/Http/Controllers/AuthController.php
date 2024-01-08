@@ -30,6 +30,16 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+    
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    
+        return redirect()->route('auth.signin')->with('success', 'Вы успешно вышли');
+    }
+
     public function signup() 
     {
         return view('auth.signup');

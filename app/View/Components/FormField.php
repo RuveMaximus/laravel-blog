@@ -16,6 +16,7 @@ class FormField extends Component
     public function __construct(
         public string $fieldName,
         public string $inputType = 'text',
+        public string $help = '',
         public bool $remember = true
     ) {}
 

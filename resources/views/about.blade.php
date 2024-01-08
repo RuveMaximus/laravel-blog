@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title') О проекте @endsection
+@section('title', 'О проекте')
 
 @section('content')
     <div class="container">

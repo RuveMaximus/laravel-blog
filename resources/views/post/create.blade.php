@@ -1,5 +1,7 @@
 @extends('layouts.base')
 
+@section('title', 'Создать пост')
+
 @section('content')
     <div class="container">
         <h1>Создать новый пост</h1>
@@ -19,7 +21,7 @@
                     </div>
 
                     <x-form-field field-name="tags">Теги (разделенные запятыми)</x-form-field>
-                    <x-form-field field-name="published_at" input-type="datetime-local">Опубликовать</x-form-field>
+                    <x-form-field field-name="published_at" input-type="datetime-local">Опубликовать в</x-form-field>
 
                     <button type="submit" class="btn btn-primary">Создать пост</button>
                 </form>

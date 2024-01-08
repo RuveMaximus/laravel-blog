@@ -43,10 +43,10 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('success', 'Пост успешно создан!');
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $post = Post::findOrFail($id);
-        return view('post.show', compact('post'));
+        return view('post.show', compact('post', 'request'));
     }
 
     public function edit($id)

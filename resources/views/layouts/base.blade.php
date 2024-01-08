@@ -9,7 +9,19 @@
     </head>
     <body class="d-flex flex-column" style="min-height:100%">
         @include('components/navbar')
-        @yield('content')
+
+        <div class="container">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @yield('content')
+        </div>
+
         @include('components/footer')
+
+        @stack('scripts')
     </body>
 </html>
