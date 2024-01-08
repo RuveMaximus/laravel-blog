@@ -19,7 +19,7 @@
                     </div>
 
                     <x-form-field field-name="tags">Теги (разделенные запятыми)</x-form-field>
-                    <x-form-field field-name="published_at" input-type="date">Дата публикации</x-form-field>
+                    <x-form-field field-name="published_at" input-type="datetime-local">Опубликовать</x-form-field>
 
                     <button type="submit" class="btn btn-primary">Создать пост</button>
                 </form>

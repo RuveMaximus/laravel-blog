@@ -4,6 +4,11 @@
 
 @section('content')
     <div class="container">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <form method="post" action="{{ route('auth.login') }}">
             @csrf
             <h1>Вход</h1>

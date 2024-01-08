@@ -45,6 +45,6 @@ class AuthController extends Controller
 
         User::create(request(['name', 'email', 'password']));
 
-        return redirect()->route('auth.signin');
+        return redirect()->route('auth.signin')->with('success', 'Аккаунт успешно зарегистрирован');
     }
 }

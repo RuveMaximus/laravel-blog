@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,27 +23,25 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/feed');
 
 Route::get('/feed', function(Request $request){
-    $posts = $request->user()->posts;
-    return view('feed', compact('posts'));
+    $posts = Post::all();
+    return view('feed', compact('posts', 'request'));
 })->name('feed');
 Route::view('/about', 'about')->name('about');
 
 Route::middleware('auth')->group(function() {
-
-    Route::prefix('user')->name('user.')->group(function () {
-        Route::get('me', [UserController::class, 'me'])->name('me');
-        Route::get('me/edit', [UserController::class, 'edit'])->name('edit');
+    Route::controller(UserController::class)->prefix('user')->name('user.')->group(function() {
+        Route::get('me', 'me')->name('me');
+        Route::get('me/edit', 'edit')->name('edit');
     });
-
     Route::resource('post', PostController::class);
 });
 
 Route::middleware('guest')->group(function() {
-    Route::prefix('auth')->name('auth.')->group(function() {
-        Route::get('signin', [AuthController::class, 'signin'])->name('signin');
-        Route::post('signin', [AuthController::class, 'login'])->name('login');
+    Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(function() {
+        Route::get('signin', 'signin')->name('signin');
+        Route::post('signin', 'login')->name('login');
 
-        Route::get('signup', [AuthController::class, 'signup'])->name('signup');
-        Route::post('signup', [AuthController::class, 'register'])->name('register');
+        Route::get('signup', 'signup')->name('signup');
+        Route::post('signup', 'register')->name('register');
     });
 });
