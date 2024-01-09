@@ -22,6 +22,6 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->where('blocked_at', null);
+        return $this->hasMany(Comment::class)->whereNull('blocked_at');
     }
 }

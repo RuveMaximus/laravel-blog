@@ -17,6 +17,14 @@
         <p>{{ $user->bio }}</p>
     @endif
 
+    @if(is_null($user->telegram_id))
+        <div class="alert alert-warning">
+            Укажите свой ID в Telegram, чтобы получать уведомления о входе в аккаунт
+        </div>
+    @else
+        <p>TelegramID: {{ $user->telegram_id }}</p>
+    @endif
+
     <div class="btn-group">
         <a href="{{ route('user.edit') }}" class="btn btn-warning">Изменить данные</a>
         <a href="{{ route('auth.logout') }}" class="btn btn-secondary">Выйти</a>

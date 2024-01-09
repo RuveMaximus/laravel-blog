@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Providers\Logined;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -20,14 +21,17 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('user.me');
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors([
+                'email' => 'Указаны неверные данные'
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'Указаны неверные данные'
-        ])->onlyInput('email');
+        $request->session()->regenerate();
+
+        Logined::dispatch(Auth::user());
+
+        return redirect()->route('user.me');
     }
 
     public function logout(Request $request)

@@ -10,7 +10,7 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.index', [
-            'comments' => Comment::all()->where('accepted_at', null)->where('blocked_at', null)
+            'comments' => Comment::toModerate()->get()
         ]);
     }
 }
