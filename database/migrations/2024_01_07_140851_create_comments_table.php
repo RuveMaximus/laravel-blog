@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Post::class);
             $table->string('content');
-            $table->boolean('accepted')->default(false);
+            $table->timestamp('accepted_at')->nullable();
+            $table->timestamp('blocked_at')->nullable();
             $table->timestamps();
         });
     }

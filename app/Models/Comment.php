@@ -12,10 +12,18 @@ class Comment extends Model
     protected $fillable = [
         'content',
         'user_id',
-        'post_id'
+        'post_id',
+        'accepted_at',
+        'blocked_at'
     ];
 
-    public function user() {
+    public function user() 
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 }

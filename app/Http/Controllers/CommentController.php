@@ -57,6 +57,18 @@ class CommentController extends Controller
     {
         //
     }
+    
+    public function accept(Request $request, Comment $comment)
+    {
+        $comment->update(['accepted_at' => now()]);
+        return redirect()->back()->with('success', 'Комментарий успешно подтвержден');
+    }
+
+    public function block(Request $request, Comment $comment)
+    {
+        $comment->update(['blocked_at' => now()]);
+        return redirect()->back()->with('success', 'Комментарий успешно заблокирован');
+    }
 
     /**
      * Remove the specified resource from storage.

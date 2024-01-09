@@ -21,7 +21,10 @@
                     </div>
 
                     <x-form-field field-name="tags">Теги (разделенные запятыми)</x-form-field>
-                    <x-form-field field-name="published_at" input-type="datetime-local">Опубликовать в</x-form-field>
+                    <x-form-field field-name="published_at" input-type="datetime-local">
+                        Опубликовать в
+                        <x-slot:help>Оставьте поле пустым чтобы опубликовать немделенно</x-slot>
+                    </x-form-field>
 
                     <button type="submit" class="btn btn-primary">Создать пост</button>
                 </form>

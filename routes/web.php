@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
@@ -35,6 +37,11 @@ Route::middleware('auth')->group(function() {
         Route::get('me/edit', 'edit')->name('edit');
     });
     Route::resource('post', PostController::class);
+    Route::resource('admin', AdminController::class);
+    Route::prefix('/admin/comment/{comment}')->name('comment.')->controller(CommentController::class)->group(function() {
+        Route::get('accept', 'accept')->name('accept');
+        Route::get('block', 'block')->name('block');
+    });
 });
 
 Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(function() {
