@@ -9,7 +9,7 @@
         <div class="row position-relative">
             <div class="col p-4 d-flex flex-column border rounded mb-4">
                 <h3>{{ $post->title }}</h3>
-                <div class="text-muted">{{ $post->published_at }}</div>
+                <div class="text-muted">{{ date('d M Y h:i', strtotime($post->published_at)) }}</div>
                 <p>{!! Str::limit($post->content, 64) !!}</p>
                 <a href="{{ route('post.show', $post->id) }}" class="icon-link gap-1 stretched-link">Читать полностью</a>
             </div>

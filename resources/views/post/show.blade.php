@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>{{ $post->title }}</h1>
-    <p class="text-muted">{{ $post->author->name }}, {{ $post->published_at }}</p>
+    <p class="text-muted">{{ $post->author->name }}, {{ date('d M Y h:i', strtotime($post->published_at)) }}</p>
     @foreach($post->tags as $tag)
         <span class="badge rounded-pill text-bg-primary">{{ $tag->name }}</span>
     @endforeach

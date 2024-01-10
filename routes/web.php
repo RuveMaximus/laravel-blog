@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/feed');
 
 Route::get('/feed', function(Request $request){
-    $posts = Post::all();
+    $posts = Post::published()->get();
     return view('feed', compact('posts', 'request'));
 })->name('feed');
 Route::view('/about', 'about')->name('about');

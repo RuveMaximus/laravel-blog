@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::all();
+        $posts = Post::all()->sortByDesc('published_at');
         return view('post.index', compact('posts', 'request'));
     }
 
@@ -28,10 +28,15 @@ class PostController extends Controller
             'tags' => 'nullable|string',
         ]);
 
+        $published_at = $request->input('published_at') ?? now();
+
         $post = Post::create(
             array_merge(
-                $request->all(),
-                ['user_id' => $request->user()->id]
+                $request->except('published_at'),
+                [
+                    'user_id' => $request->user()->id,
+                    'published_at' => $published_at
+                ]
             )
         );
 
